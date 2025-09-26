@@ -1,11 +1,44 @@
 #include <iostream>
+#include <vector>
+#include <random>
+#include <stdexcept>
+#include <fstream>
 
 using namespace std;
 
 struct Point{
-  double x,y
+  double x,y;
 };
 
 class FunctionalObject{
+public:
+FunctionalObject(Point &start, vector<Point> &base): current(start), basePoints(base), gen(random_device{}()), range(0, basePoints.size()-1)
+{
+if(basePoints.empty())
+{
+throw invalid_argument("At least one base point must be provided!");
+}
+}
+
+private:
+Point current;
+vector<Point> basePoints;
+mt19937 gen;
+uniform_int_distribution<> range;
+}
+
+int main()
+{
+try{
+ifstream file1("input.txt");
+if(!file1) throw runtime_error("Couldn't open input.txt");
+
+size_t N;
+file1>>N;
+if(N==0) throw invalid_argument("Incorrent value N");
+
+
+}
+
 
    
