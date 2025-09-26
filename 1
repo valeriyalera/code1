@@ -20,6 +20,14 @@ throw invalid_argument("At least one base point must be provided!");
 }
 }
 
+Point operator()() {
+int idx = range(gen);
+Point b = basePoints[idx];
+current.x = (current.x + b.x) / 2.0;
+current.y = (current.y + b.y) / 2.0;
+return current;
+}
+
 private:
 Point current;
 vector<Point> basePoints;
@@ -37,7 +45,29 @@ size_t N;
 file1>>N;
 if(N==0) throw invalid_argument("Incorrent value N");
 
+Point start;
+file1 >> start.x >> start.y;
+if (!file1) throw runtime_error("Incorect starting point");
 
+vector<Point> base;
+Point p;
+while (file1 >> p.x >> p.y) {
+base.push_back(p);
+}
+if (base.empty()) throw runtime_error("No base points in the file");
+
+FunctionalObject gen(start, base);
+ofstream file2("output.txt");
+if (!file2) throw runtime_error("Couldn't open output.txt");
+
+for (size_t i = 0; i < N; ++i) {
+Point next = gen();
+file2 << next.x << " " << next.y << "\n";
+}
+
+}
+catch (exception& ex) {
+cout << "Error: " << ex.what() << "\n";
 }
 return 0;
 }
