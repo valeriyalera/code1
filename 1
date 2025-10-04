@@ -60,6 +60,8 @@ FunctionalObject gen(start, base);
 ofstream file2("output.txt");
 if (!file2) throw runtime_error("Couldn't open output.txt");
 
+file2 << start.x << " " << start.y << "\n";
+
 for (size_t i = 0; i < N; ++i) {
 Point next = gen();
 file2 << next.x << " " << next.y << "\n";
